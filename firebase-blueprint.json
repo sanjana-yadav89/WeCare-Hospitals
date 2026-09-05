@@ -1,0 +1,169 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Registered patient profile containing account details and personal contact information",
+      "type": "object",
+      "properties": {
+        "uid": {
+          "type": "string",
+          "description": "Firebase Auth UID of the user"
+        },
+        "email": {
+          "type": "string",
+          "format": "email",
+          "description": "User email address"
+        },
+        "displayName": {
+          "type": "string",
+          "description": "User full name"
+        },
+        "phoneNumber": {
+          "type": "string",
+          "description": "User contact phone number"
+        },
+        "address": {
+          "type": "string",
+          "description": "User residential address"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp when the user profile was created"
+        }
+      },
+      "required": ["uid", "email", "displayName"]
+    },
+    "Appointment": {
+      "title": "Appointment",
+      "description": "Hospital doctor consultation booking record",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique booking reference ID"
+        },
+        "userId": {
+          "type": "string",
+          "description": "UID of the user who booked the appointment"
+        },
+        "doctorId": {
+          "type": "string",
+          "description": "ID of the assigned specialist doctor"
+        },
+        "doctorName": {
+          "type": "string",
+          "description": "Doctor full name and qualifications"
+        },
+        "doctorSpecialty": {
+          "type": "string",
+          "description": "Doctor clinical specialty"
+        },
+        "doctorImage": {
+          "type": "string",
+          "description": "Doctor portrait URL"
+        },
+        "departmentId": {
+          "type": "string",
+          "description": "Department ID"
+        },
+        "departmentName": {
+          "type": "string",
+          "description": "Hospital department name"
+        },
+        "consultationType": {
+          "type": "string",
+          "enum": ["in-person", "video", "emergency"],
+          "description": "Mode of consultation"
+        },
+        "date": {
+          "type": "string",
+          "description": "Appointment date in YYYY-MM-DD format"
+        },
+        "timeSlot": {
+          "type": "string",
+          "description": "Consultation time slot string"
+        },
+        "patientName": {
+          "type": "string",
+          "description": "Full name of the patient"
+        },
+        "patientAge": {
+          "type": "number",
+          "description": "Patient age in years"
+        },
+        "patientGender": {
+          "type": "string",
+          "enum": ["Male", "Female", "Other"],
+          "description": "Patient gender"
+        },
+        "patientPhone": {
+          "type": "string",
+          "description": "Patient contact phone number"
+        },
+        "patientEmail": {
+          "type": "string",
+          "description": "Patient email address"
+        },
+        "patientAddress": {
+          "type": "string",
+          "description": "Optional patient residential address"
+        },
+        "reason": {
+          "type": "string",
+          "description": "Clinical reason or primary symptom summary"
+        },
+        "isFirstVisit": {
+          "type": "boolean",
+          "description": "Flag indicating if this is first visit"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["confirmed", "completed", "cancelled", "rescheduled"],
+          "description": "Current status of appointment"
+        },
+        "createdAt": {
+          "type": "string",
+          "description": "ISO timestamp of creation"
+        },
+        "fee": {
+          "type": "number",
+          "description": "Doctor consultation fee in USD"
+        }
+      },
+      "required": [
+        "id",
+        "userId",
+        "doctorId",
+        "doctorName",
+        "departmentId",
+        "departmentName",
+        "consultationType",
+        "date",
+        "timeSlot",
+        "patientName",
+        "patientPhone",
+        "patientEmail",
+        "status",
+        "fee"
+      ]
+    }
+  },
+  "firestore": {
+    "/admin/{userId}": {
+      "schema": "User",
+      "description": "Stores user/admin profile and account details (admin replacing user)"
+    },
+    "/admin/{userId}/users/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Stores patient bookings under user/admin profile (users replacing appointments)"
+    },
+    "/users/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Central hospital database of all bookings (users collection replacing appointments)"
+    },
+    "/all_appointments/{appointmentId}": {
+      "schema": "Appointment",
+      "description": "Legacy reference path for backward compatibility"
+    }
+  }
+}

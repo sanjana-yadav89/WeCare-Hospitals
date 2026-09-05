@@ -1,0 +1,6 @@
+{
+  "name": "WeCare Hospitals",
+  "description": "A modern, comprehensive healthcare portal for WeCare Hospitals featuring multi-specialty departments, doctor profiles, 24/7 emergency care, and appointment booking.",
+  "requestFramePermissions": ["microphone", "camera"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
